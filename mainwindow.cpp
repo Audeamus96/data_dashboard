@@ -4,6 +4,7 @@
 #include "plotWindows/scatter/scatterwindow.h"
 #include "plotWindows/orientation_3d/orientationwindow.h"
 #include "plotWindows/line/lineplot.h"
+#include "plotWindows/gmeter/gmeter.h"
 #include "helperObjects/graphHeaderWidget/graphheaderwidget.h"
 
 #include <QApplication>
@@ -716,6 +717,29 @@ void MainWindow::on_addLine_clicked()
 
     plotWindow->show();
     _LineCount++;
+}
+
+/**
+ * @brief [Slot] Create new Gmeter plot
+ */
+void MainWindow::on_addGmeter_clicked(){
+    logLine("UI: Creating Gmeter Plot");
+    static uint8_t _GMeterCount = 0;
+    QString winID = QString::number(_GMeterCount);
+
+    Gmeter *gmeterWindow = new Gmeter("GmeterWindow_"+winID);
+    QObject::connect(gmeterWindow, &Gmeter::logLine,
+                     this, &MainWindow::logLine);
+    QMdiSubWindow *plotWindow = ui->mdiArea->addSubWindow(gmeterWindow);
+
+    plotWindow->setWindowFlags(Qt::WindowCloseButtonHint);
+    plotWindow->setAttribute(Qt::WA_DeleteOnClose, true);
+    plotWindow->setWindowTitle("Gmeter " + winID);
+    plotWindow->setWindowIcon(QIcon(":/icons/icon.png"));
+
+    plotWindow->show();
+    _GMeterCount++;
+
 }
 
 

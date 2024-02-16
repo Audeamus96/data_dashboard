@@ -8,6 +8,8 @@ SOURCES += main.cpp mainwindow.cpp \
         helperObjects/dataMultiplexer/datamultiplexer.cpp \
         helperObjects/graphHeaderWidget/graphheaderwidget.cpp \
         helperObjects/mathComponent/mathchannelcomponent.cpp \
+        plotWindows/gmeter/gmeter.cpp \
+        plotWindows/gmeter/gmeterwidget.cpp \
         plotWindows/line/lineplot.cpp \
         plotWindows/line/qcustomplot.cpp \
         plotWindows/scatter/scatterwindow.cpp \
@@ -26,6 +28,8 @@ HEADERS += mainwindow.h \
     helperObjects/dataMultiplexer/mathchannel.h \
     helperObjects/graphHeaderWidget/graphheaderwidget.h \
     helperObjects/mathComponent/mathchannelcomponent.h \
+    plotWindows/gmeter/gmeter.h \
+    plotWindows/gmeter/gmeterwidget.h \
     plotWindows/line/lineplot.h \
     plotWindows/line/qcustomplot.h \
     plotWindows/plotWindows.h \

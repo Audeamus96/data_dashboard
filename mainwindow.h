@@ -57,6 +57,8 @@ private slots:
 
     void on_enableNetwork_clicked();
 
+    void on_addGmeter_clicked();
+
 private:
     void LoadSettings();
 

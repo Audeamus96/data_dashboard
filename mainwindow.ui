@@ -63,6 +63,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="addGmeter">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add new gmeter to the dashboard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Add Gmeter</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -546,7 +556,7 @@
                    <x>0</x>
                    <y>0</y>
                    <width>248</width>
-                   <height>169</height>
+                   <height>155</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -947,8 +957,8 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>498</width>
-              <height>218</height>
+              <width>516</width>
+              <height>210</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_7">
