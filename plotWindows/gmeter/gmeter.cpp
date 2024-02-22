@@ -2,6 +2,7 @@
 //#include "helperObjects/dataMultiplexer/datamultiplexer.h"
 #include <mainwindow.h>
 
+// todo: limit of 3.5g's
 
 Gmeter::Gmeter(QString objName)
 {
@@ -19,7 +20,7 @@ Gmeter::Gmeter(QString objName)
         _gmeterDrawingWidget->setAngle(currentAngle + 0.01); // Increment the angle and update the widget
     });
 
-    _refresher->start(5);
+    _refresher->start(100);
 
 //    _contWind = new QWidget();
 //    this->setObjectName(objName);
