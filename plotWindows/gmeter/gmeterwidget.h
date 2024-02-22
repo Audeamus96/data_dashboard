@@ -13,14 +13,13 @@ class GmeterWidget : public QWidget
     Q_OBJECT
 public:
     GmeterWidget(QWidget *parent = nullptr);
-    void setAngle(qreal newAngle);
-    qreal getAngle() const{ return angle;}
+    void setPosition(qreal x, qreal y);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    qreal angle = 0;
+    QPointF currentPosition;
     QList<QPointF> tailPositions;
 
     void updateTail();

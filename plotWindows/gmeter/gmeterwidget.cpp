@@ -29,42 +29,20 @@ void GmeterWidget::paintEvent(QPaintEvent *event)
     // Draw the main dot (reuse the last position in the tail)
     if (!tailPositions.isEmpty()) {
         painter.setBrush(Qt::red);
-        painter.drawEllipse(tailPositions.first(), 5, 5); // Adjust size as needed
+        painter.drawEllipse(currentPosition, 5, 5); // Adjust size as needed
     }
-//    // Calculate the dot's position
-//    qreal centerX = width() / 2.0;
-//    qreal centerY = height() / 2.0;
-//    qreal radius = (width() - 2 * margin) / 2.0;
-//    qreal dotX = centerX + radius * qCos(angle);
-//    qreal dotY = centerY + radius * qSin(angle);
-
-//    // Draw the moving dot
-//    painter.setBrush(Qt::red);
-//    int dotSize = 10;
-//    painter.drawEllipse(QPointF(dotX, dotY), dotSize / 2.0, dotSize / 2.0);
 }
 
-void GmeterWidget::setAngle(qreal newAngle)
+void GmeterWidget::setPosition(qreal x, qreal y)
 {
-    if (angle != newAngle) {
-        angle = newAngle;
-        updateTail(); // Update tail before repainting
-        update(); // Trigger a repaint whenever the angle changes
-    }
+    currentPosition = QPointF(x,y);
+    updateTail(); // Update the tail positions before repainting
+    update(); // Trigger repaint
 }
 
 void GmeterWidget::updateTail()
 {
-    // Calculate the new dot position based on the current angle
-    qreal centerX = width() / 2.0;
-    qreal centerY = height() / 2.0;
-    qreal radius = (width() - 20) / 2.0; // Adjust for margin
-    qreal dotX = centerX + radius * qCos(angle);
-    qreal dotY = centerY + radius * qSin(angle);
-    QPointF newDotPosition(dotX, dotY);
-
-    // Add the new position to the list of tail positions
-    tailPositions.prepend(newDotPosition);
+    tailPositions.prepend(currentPosition);
 
     // Ensure the list doesn't grow indefinitely
     if (tailPositions.size() > MAX_TAIL_LENGTH) {

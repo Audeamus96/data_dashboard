@@ -30,6 +30,8 @@ private:
     QWidget *_contWind;
     QVBoxLayout *windMainLayout;
 
+    graphHeaderWidget *_header;
+
     QTimer *_refresher;
 
 };
