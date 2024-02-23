@@ -3,10 +3,7 @@
 #include <QVBoxLayout>
 #include <QMdiSubWindow>
 
-#include <QPainter>
-
 #include <helperObjects/graphHeaderWidget/graphheaderwidget.h>
-#include "plotWindows/line/qcustomplot.h"
 #include "gmeterwidget.h"
 
 class Gmeter : public QMdiSubWindow
@@ -22,15 +19,21 @@ public:
 signals:
     void logLine(const QString &line);
 
+public slots:
+    void UpdateTailSize(const QString &_size);
+
 private:
     void _ConstructUI();
 
-    GmeterWidget *_gmeterDrawingWidget;
+    uint8_t _nInputs;
+    QVector<uint8_t>_inputChannels;
+    uint8_t _maxInChannel;
+    uint32_t _tailSize;
 
-    QWidget *_contWind;
     QVBoxLayout *windMainLayout;
-
+    QWidget *_contWind;
     graphHeaderWidget *_header;
+    GmeterWidget *_gmeterWidget;
 
     QTimer *_refresher;
 

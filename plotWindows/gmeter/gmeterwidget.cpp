@@ -1,7 +1,9 @@
 #include "gmeterwidget.h"
 #include <QtMath>
 
-GmeterWidget::GmeterWidget(QWidget *parent) : QWidget(parent){}
+const uint32_t defaultTailSize = 25;
+
+GmeterWidget::GmeterWidget(QWidget *parent) : QWidget(parent), _tailSize(defaultTailSize){}
 
 void GmeterWidget::paintEvent(QPaintEvent *event)
 {
@@ -39,11 +41,6 @@ void GmeterWidget::paintEvent(QPaintEvent *event)
         // If using the QRectF-based drawEllipse
         painter.drawEllipse(center - QPointF(dotDiameter / 2, dotDiameter / 2), dotDiameter, dotDiameter);
     }
-
-    painter.setBrush(Qt::blue);
-    qreal dotRadius = 1; // Half the diameter
-    QPointF center = logicalToPhysical(0, 0); // Logical center to physical position
-    painter.drawEllipse(center - QPointF(dotRadius, dotRadius), dotRadius * 2, dotRadius * 2);
 }
 
 void GmeterWidget::setPosition(qreal x, qreal y)
@@ -58,8 +55,18 @@ void GmeterWidget::updateTail()
     tailPositions.prepend(currentPosition);
 
     // Ensure the list doesn't grow indefinitely
-    if (tailPositions.size() > MAX_TAIL_LENGTH) {
+    if (tailPositions.size() > _tailSize) {
         tailPositions.removeLast();
+    }
+}
+
+void GmeterWidget::setTailSize(uint32_t tailSize){
+    _tailSize = tailSize > MAX_TAIL_LENGTH ? MAX_TAIL_LENGTH : tailSize;
+
+    if(_tailSize < tailPositions.size()){
+        for(int i=0; i > (tailPositions.size() - _tailSize); i++){
+            tailPositions.removeLast();
+        }
     }
 }
 
@@ -94,6 +101,7 @@ void GmeterWidget::drawGraphBackground(QPainter *painter){
             painter->drawLine(start, end);
         }
     }
+
     for (qreal logicalY = logicalMin; logicalY <= logicalMax; logicalY += 0.5) {
         QPointF start = logicalToPhysical(logicalMin, logicalY);
         QPointF end = logicalToPhysical(logicalMax, logicalY);
