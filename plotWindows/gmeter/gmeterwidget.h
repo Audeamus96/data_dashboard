@@ -6,7 +6,7 @@
 #include <QList>
 #include <QPointF>
 
-#define MAX_TAIL_LENGTH 100
+#define MAX_TAIL_LENGTH 10000
 
 class GmeterWidget : public QWidget
 {

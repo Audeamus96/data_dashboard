@@ -42,12 +42,33 @@ Gmeter::Gmeter(QString objName): _nInputs(2), _maxInChannel(0), _tailSize(defaul
 
 Gmeter::~Gmeter(){
     emit logLine("Gmeter: Destroying the plot");
-
+    DataMultiplexer::GetI().UnregisterGraph(this);
+    _refresher->stop();
+    disconnect(_refresher, SIGNAL(timeout()), _gmeterWidget, SLOT(update()));
+    disconnect(DataMultiplexer::GetP(),
+               &DataMultiplexer::ChannelsUpdated,
+               _header,
+               &graphHeaderWidget::UpdateChannelDropdown);
+    MainWindow::clearLayout(_contWind->layout());
 }
 
 void Gmeter::_ConstructUI(){
 
     QVector<uint8_t> selectedChannels;
+
+    //  Check if UI is already been constructed, then destroy it
+    if (!_contWind->layout()->isEmpty())
+    {
+         emit logLine("Line: Deconstructing existing UI");
+        _refresher->stop();
+        DataMultiplexer::GetI().UnregisterGraph(this);
+        disconnect(_refresher, SIGNAL(timeout()), _gmeterWidget, SLOT(update()));
+        disconnect(DataMultiplexer::GetP(),
+                   &DataMultiplexer::ChannelsUpdated,
+                   _header,
+                   &graphHeaderWidget::UpdateChannelDropdown);
+        MainWindow::clearLayout(_contWind->layout());
+    }
 
     //  Basic header with input channel drop-downs
     _header = new graphHeaderWidget(_nInputs, this->objectName());
@@ -93,10 +114,13 @@ void Gmeter::_ConstructUI(){
     // Create Gmeter
     _gmeterWidget = new GmeterWidget(this);
     _gmeterWidget->setMinimumSize(QSize(200,200));
+    connect(_refresher, SIGNAL(timeout()), _gmeterWidget, SLOT(update()));
+
+    _inputChannels.resize(_nInputs);
 
     windMainLayout ->addWidget(_gmeterWidget);
 
-    _refresher->start(20);
+    _refresher->start(1);
 
     // Register with the mux
     DataMultiplexer::GetI().RegisterGraph(this->objectName(), _nInputs, this);

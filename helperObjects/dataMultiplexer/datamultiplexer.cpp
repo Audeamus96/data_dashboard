@@ -228,6 +228,19 @@ void DataMultiplexer::RegisterGraph(QString name,
     _Graphs.push_back(new GraphClient(name,nInChannels,receiver));
     emit logLine("Registered graph "+name);
 }
+/**
+ * @brief Register Gforce meter
+ * @param name Name of the plot
+ * @param nInChannels Number of input channels
+ * @param receiver Pointer to graph object
+ */
+void DataMultiplexer::RegisterGraph(QString name,
+                                    uint8_t nInChannels,
+                                    Gmeter* receiver)
+{
+    _Graphs.push_back(new GraphClient(name,nInChannels,receiver));
+    emit logLine("Registered graph "+name);
+}
 
 
 /**
@@ -271,6 +284,24 @@ void DataMultiplexer::UnregisterGraph(ScatterWindow* reciver)
  * @param reciver Pointer to graph object
  */
 void DataMultiplexer::UnregisterGraph(LinePlot* reciver)
+{
+    QString name("");
+    for (uint8_t i = 0; i < _Graphs.size(); i++)
+    {
+        if (_Graphs[i]->Receiver(reciver) == reciver)
+        {
+            name = _Graphs[i]->_name;
+            _Graphs.erase(_Graphs.begin()+i);
+            break;
+        }
+    }
+    emit logLine("Unregistered graph "+name);
+}
+/**
+ * @brief Unregister Gforce meter
+ * @param reciver Pointer to graph object
+ */
+void DataMultiplexer::UnregisterGraph(Gmeter* reciver)
 {
     QString name("");
     for (uint8_t i = 0; i < _Graphs.size(); i++)

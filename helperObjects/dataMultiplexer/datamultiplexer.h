@@ -53,10 +53,14 @@ public:
     void RegisterGraph(QString name,
                        uint8_t nInChannels,
                        LinePlot *receiver);
+    void RegisterGraph(QString name,
+                       uint8_t nInChannels,
+                       Gmeter *receiver);
 
     void UnregisterGraph(OrientationWindow* reciver);
     void UnregisterGraph(ScatterWindow* reciver);
     void UnregisterGraph(LinePlot* reciver);
+    void UnregisterGraph(Gmeter* reciver);
 
     uint16_t GetSampleRateEst();
 signals:

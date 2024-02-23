@@ -16,13 +16,13 @@ void GmeterWidget::paintEvent(QPaintEvent *event)
     painter.restore();
 
     // Draw the tail
-    qreal fadeStep = 1.0 / MAX_TAIL_LENGTH;
+    qreal fadeStep = 1.0 / _tailSize;
     qreal currentOpacity = 1.0;
     for (const QPointF &position : qAsConst(tailPositions)) {
-        painter.setBrush(QBrush(Qt::red, Qt::SolidPattern));
+        painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
         painter.setOpacity(currentOpacity);
         //painter.drawEllipse(position, 3, 3); // Adjust size as needed
-        qreal dotDiameter = 3;
+        qreal dotDiameter = 1;
         QPointF center = logicalToPhysical(position.x(), position.y());
         // If using the QRectF-based drawEllipse
         painter.drawEllipse(center - QPointF(dotDiameter / 2, dotDiameter / 2), dotDiameter, dotDiameter);
@@ -36,7 +36,7 @@ void GmeterWidget::paintEvent(QPaintEvent *event)
     if (!tailPositions.isEmpty()) {
         painter.setBrush(Qt::red);
 //        painter.drawEllipse(currentPosition, 5, 5); // Adjust size as needed
-        qreal dotDiameter = 5;
+        qreal dotDiameter = 3;
         QPointF center = logicalToPhysical(currentPosition.x(), currentPosition.y());
         // If using the QRectF-based drawEllipse
         painter.drawEllipse(center - QPointF(dotDiameter / 2, dotDiameter / 2), dotDiameter, dotDiameter);

@@ -6,7 +6,8 @@
 enum GraphType {
     Orientation3D,
     Scatter,
-    Line
+    Line,
+    Gforce
 };
 
 
@@ -23,6 +24,9 @@ public:
     GraphClient(QString name, uint8_t nInChannels, LinePlot* reciver) \
         :_name(name), _inChannels(nInChannels), _receiverLine(reciver)
     { _type = GraphType::Line; }
+    GraphClient(QString name, uint8_t nInChannels, Gmeter* reciver) \
+        :_name(name), _inChannels(nInChannels), _receiverGforce(reciver)
+    { _type = GraphType::Gforce; }
 
     void SetInputChannels(uint8_t n, uint8_t *chList)
     {
@@ -45,6 +49,8 @@ public:
         case GraphType::Line:
             _receiverLine->ReceiveData(data, n);
             break;
+        case GraphType::Gforce:
+            _receiverGforce->ReceiveData(data, n);
         default:
             break;
         }
@@ -74,6 +80,12 @@ public:
         return _receiverLine;
     }
 
+    Gmeter* Receiver(Gmeter* dummy=0)
+    {
+        assert(dummy==dummy);
+        return _receiverGforce;
+    }
+
 
 private:
     GraphType _type;
@@ -82,6 +94,7 @@ private:
     OrientationWindow* _reciver3D;
     ScatterWindow* _receiverScatter;
     LinePlot    *_receiverLine;
+    Gmeter *_receiverGforce;
     std::vector<uint8_t>_inputChannelMap;
 };
 #endif // GRAPHCLIENT_H
