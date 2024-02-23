@@ -13,20 +13,25 @@ Gmeter::Gmeter(QString objName)
     this->setWidget(_gmeterDrawingWidget);
 
     _refresher = new QTimer(this);
+
     static qreal x = 0;
     static qreal y = 0;
+
     connect(_refresher, &QTimer::timeout, _gmeterDrawingWidget,[this]() {
         // Update the angle for the moving dot
         // This is a simple example; you might want to base this on actual data
-        _gmeterDrawingWidget->setPosition(x++, y++); // Increment the angle and update the widget
+        _gmeterDrawingWidget->setPosition(x, y); // Increment the angle and update the widget
+        x+=0.1;
+        y+=0.1;
     });
 
-    _refresher->start(100);
+    _refresher->start(500);
 
 }
 
 Gmeter::~Gmeter(){
     emit logLine("Gmeter: Destroying the plot");
+
 }
 
 void Gmeter::_ConstructUI(){

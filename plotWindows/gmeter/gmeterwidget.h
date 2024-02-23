@@ -23,6 +23,12 @@ private:
     QList<QPointF> tailPositions;
 
     void updateTail();
+    QPointF logicalToPhysical(qreal logicalX, qreal logicalY);
+    void drawGraphBackground(QPainter *painter);
+
+    // Constants for logical range of the graph
+    const qreal logicalMin = -3.5;
+    const qreal logicalMax = 3.5;
 
 };
 
